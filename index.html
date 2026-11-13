@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema Prisional GTA RP</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="container">
+
+<h2 class="titulo-principal">⚖️ Sistema Prisional GTA RP ⚖️</h2>
+
+<!-- DADOS DO RÉU E OFICIAIS -->
+<div class="grid-topo">
+
+  <!-- COLUNA ESQUERDA -->
+  <div class="coluna">
+    <div class="bloco hud-bloco reu-bloco">
+      <h2 class="center">😟 Dados do Réu</h2>
+      <input type="text" id="reuNome" placeholder="Nome do Réu">
+      <input type="text" id="reuPassaporte" placeholder="Passaporte do Réu"
+             maxlength="10" oninput="this.value=this.value.replace(/\D/g,'')">
+    </div>
+
+    <div class="bloco hud-bloco">
+      <h2 class="center">💼 Advogado</h2>
+      <input type="text" id="advogadoNome" placeholder="Nome do Advogado" disabled>
+      <input type="text" id="advogadoPassaporte" placeholder="Passaporte do Advogado"
+             maxlength="10" oninput="this.value=this.value.replace(/\D/g,'')"
+             disabled>
+	  <h2 class="center">
+	</div>
+  </div>
+
+  <!-- COLUNA DIREITA -->
+  <div class="coluna">
+    <div class="bloco hud-bloco oficiais-bloco">
+      <h2 class="center">👮🏽‍️ Dados dos Oficiais</h2>
+
+      <input type="text" id="oficialNome" placeholder="Oficial Responsável">
+      <input type="text" id="oficialPassaporte" placeholder="Passaporte do Oficial"
+             maxlength="10" oninput="this.value=this.value.replace(/\D/g,'')">
+
+      <select id="guarnicao">
+        <option value="PRF">PRF</option>
+        <option value="PMERJ">PMERJ</option>
+        <option value="CHOQUE">CHOQUE</option>
+        <option value="BOPE">BOPE</option>
+        <option value="PCERJ">PCERJ</option>
+        <option value="CORE">CORE</option>
+        <option value="EXERCITO">EXÉRCITO</option>
+      </select>
+
+      <input type="text" id="boAuto" placeholder="B.O." readonly>
+
+      <textarea id="outrosOficiais"
+                placeholder="Oficiais Participantes"></textarea>
+    </div>
+
+    <div class="bloco hud-bloco">
+      <h2 class="center">👮🏼 Delegado ou Responsável</h2>
+      <input type="text" id="respNome" placeholder="Nome do Delegado" disabled>
+      <input type="text" id="respPassaporte" placeholder="Passaporte do Delegado"
+             maxlength="10" oninput="this.value=this.value.replace(/\D/g,'')"
+             disabled>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- PESQUISA -->
+<div class="bloco hud-bloco">
+  <input type="text" id="searchCrime" placeholder="Pesquisar crime...">
+</div>
+
+<!-- CRIMES -->
+<div id="crimeContainer" class="crime-grid"></div>
+
+<!-- AGRAVANTES / ATENUANTES -->
+
+<div class="grid-2">
+
+  <!-- AGRAVANTES -->
+  <div class="crime-bloco seletor">
+  <div class="crime-header agravante">
+    <span class="crime-icon">🔴</span>
+    Agravantes
+  </div>
+
+  <div class="crime-lista hidden">
+    <div id="agravantesBtns" class="crime-container">
+      <div class="crime-item" data-value="reincidente">🔁 Réu Reincidente</div>
+      <div class="crime-item" data-value="resistencia">✋ Resistência à Prisão</div>
+      <div class="crime-item" data-value="fuga">🏃 Tentativa de Fuga</div>
+      <div class="crime-item" data-value="desacato">🗣️ Desacato</div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- ATENUANTES -->
+  <div class="crime-bloco seletor">
+  <div class="crime-header atenuante">
+    <span class="crime-icon">🟢</span>
+    Atenuantes
+  </div>
+
+  <div class="crime-lista hidden">
+    <div id="atenuantesBtns" class="crime-container">
+      <div class="crime-item" data-value="advogado">⚖️ Advogado constituído</div>
+      <div class="crime-item" data-value="reup">🆕 Réu Primário</div>
+      <div class="crime-item" data-value="confesso">✅ Réu Confesso</div>
+      <div class="crime-item" data-value="porte_legal">🔫 Porte de Arma Legal</div>
+      <div class="crime-item" data-value="delacao">🕵️ Delação Premiada</div>
+      <div class="crime-item" data-value="delegado">👮 Delegado Presente</div>
+      <div class="crime-item" data-value="colaboracao">🤝 Colaboração</div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+
+
+<!-- BOTÕES -->
+<div class="bloco hud-bloco actions">
+  <button id="calcularBtn" class="hud-btn">Calcular Penalidades</button>
+
+  <button id="resetCrimes" class="hud-btn danger">
+    Limpar Crimes
+  </button>
+
+  <button id="gerarRelatorio" class="hud-btn">
+    Gerar Relatório para Discord
+  </button>
+  <button id="sistemaTablet" class="hud-btn">
+    Sistema Tablet
+  </button>
+</div>
+
+<!--<div class="bloco hud-bloco" id="resumo"></div> -->
+
+
+<div class="tooltip" id="tooltip"></div>
+<!-- MODAL CHECKLIST -->
+<div id="checklistModal" class="modal hidden">
+  <div class="modal-content">
+
+    <h2 class="center">CHECKLIST DE PROCEDIMENTOS</h2>
+
+    <p class="modal-text">
+      Leia atentamente todos os itens obrigatórios para validação da prisão.<br>
+      O registro estará correto quando todos os requisitos abaixo estiverem selecionados.<br>
+      Selecionar o item confirma que o procedimento foi realizado conforme o
+      <strong>Checklist de Prisão</strong>.<br><br>
+      Itens que não se aplicam à ocorrência podem ser selecionados apenas para concluir a ação.
+    </p>
+
+    <div id="checklistItens" class="checklist-grid">
+
+		<div class="check-item">Lei de Miranda aplicada antes da delegacia</div>
+		<div class="check-item">Revista de sexo oposto feita com método da caixa</div>
+		<div class="check-item">Foto do inventário do Réu (RG aberto do Réu)</div>
+		<div class="check-item">Foto do porta-malas do veículo (Placa Veículo)</div>
+		<div class="check-item">Foto do rosto com RG aberto (tela inteira)</div>
+		<div class="check-item">Foto do corpo com RG aberto (uso de Coldre/Colete)</div>
+		<div class="check-item">Crime de ocultação facial (Foto com e sem Máscara)</div>
+		<div class="check-item">Verificado uso de coldre ou colete visível</div>
+		<div class="check-item">Relatório da ação com quantitativo de itens</div>
+		<div class="check-item">Todos os envolvidos marcados (policiais e jurídico)</div>
+
+	</div>
+
+
+    <div class="modal-actions">
+      <button id="confirmarChecklist" class="hud-btn">Confirmar e Copiar Relatório</button>
+      <button id="cancelarChecklist" class="hud-btn danger">Cancelar</button>
+    </div>
+
+  </div>
+</div>
+
+<div id="boletimModal" class="modal hidden">
+  <div class="modal-content boletim-modal">
+
+    <h2 class="center">🧾 BOLETIM DE CONFERÊNCIA PENAL</h2>
+
+    <div id="boletimConteudo"></div>
+
+    <div class="modal-actions">
+      <button id="fecharBoletim">Fechar</button>
+    </div>
+
+  </div>
+</div>
+
+
+<script src="script.js"></script>
+</div>
+<footer>
+  Sistema Administrativo do Sistema Prisional — GTA RP
+</footer>
+</body>
+</html>
